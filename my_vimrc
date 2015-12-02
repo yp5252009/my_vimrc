@@ -16,7 +16,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree.git' 
 " plugin from http://vim-scripts.org/vim/scripts.html
-Plugin 'L9'
+"Plugin 'L9'
 " Git plugin not hosted on GitHub
 "Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
@@ -75,9 +75,6 @@ colorscheme molokai
 " Basic Setup - behaviour, filetypes, syntax
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Automatically reload .vimrc when changing
-autocmd! bufwritepost .vimrc source! %
-
 set encoding=utf-8
 set noswapfile
 
@@ -180,7 +177,7 @@ function AddTitle2()
         "call append(1,"#")
         call append(1," * 	Author        	: 		Yang Pan")
         "call append(3,"#")
-        call append(2," * 	Email         	: 		pan.yang@renren-inc.com")
+        call append(2," * 	Email         	: 		")
         "call append(5,"#")
         call append(3," * 	Last modified 	: 		".strftime("%Y-%m-%d %H:%M"))
         "call append(7,"#")
