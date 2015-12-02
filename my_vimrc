@@ -1,0 +1,221 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree.git' 
+" plugin from http://vim-scripts.org/vim/scripts.html
+Plugin 'L9'
+" Git plugin not hosted on GitHub
+"Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+"Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Avoid a name conflict with L9
+"Plugin 'user/L9', {'name': 'newL9'}
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just
+":PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"流行的配色方案：solarized
+"if has('gui_running')
+"    " do something
+"else 
+"    " if running in terminal
+"    " tell vim to use 256 colors
+"    set t_Co=256
+"    " tell Solarized to use the 256 degraded color mode
+"    let g:solarized_termcolors=256
+"endif
+"set background=dark
+"colorscheme solarized
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"molokai配色
+set t_Co=256
+colorscheme molokai
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"这是一种普通的配色方案，感觉也可以
+"设置配色，这里选择的是desert，也有其他方案，在vim中输入:color 在敲tab键可以查看 
+"color desert 
+"colorscheme evening
+"设置背景色，每种配色有两种方案，一个light、一个dark 
+"set background=dark
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Basic Setup - behaviour, filetypes, syntax
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Automatically reload .vimrc when changing
+autocmd! bufwritepost .vimrc source! %
+
+set encoding=utf-8
+set noswapfile
+
+"传说中的去掉边框用下边这一句 
+set go= 
+"显示文件名
+"set ls=2
+"打开语法高亮 
+syntax enable
+syntax on 
+"显示行号 
+"set number 
+"设置缩进有三个取值cindent(c风格)、smartindent(智能模式，其实不觉得有什么智能)、autoindent(简单的与上一行保持一致) 
+set cindent 
+"在windows版本中vim的退格键模式默认与vi兼容，与我们的使用习惯不太符合，下边这条可以改过来 
+"set backspace=indent,eol,start 
+"用空格键替换制表符 
+:set expandtab 
+"制表符占4个空格 
+set tabstop=4 
+"默认缩进4个空格大小 
+set shiftwidth=4 
+"增量式搜索 
+set incsearch 
+"高亮搜索 
+set hlsearch 
+"有时中文会显示乱码，用一下几条命令解决 
+let &termencoding=&encoding 
+set fileencodings=utf-8,gbk 
+"很多插件都会要求的配置检测文件类型 
+:filetype on 
+:filetype plugin on 
+:filetype indent on 
+"下边这个很有用可以根据不同的文件类型执行不同的命令 
+"例如：如果是c/c++类型 
+":autocmd FileType c,cpp :set foldmethod=syntax 
+":autocmd FileType c,cpp :set number 
+:autocmd FileType c,cpp :set cindent 
+
+"例如：如果是python类型 
+":autocmd FileType python :set number 
+":autocmd FileType python : set foldmethod=syntax 
+":autocmd FileType python :set smartindent 
+
+"NERDTree文件浏览插件
+map <F5> : NERDTree<CR>
+" 将 NERDTree 的窗口设置在 vim 窗口的右侧（默认为左侧）
+"let NERDTreeWinPos="right"
+" 当打开 NERDTree 窗口时，自动显示 Bookmarks
+"let NERDTreeShowBookmarks=1
+
+""""""""""set ctags""""""""""
+map <F4> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
+"设置tags
+set tags=tags;
+"添加更多的tags
+"set tags+=~/.vim/ndktags
+"下面这行暂时不理解意思，先不用
+"set autochdir
+
+"""""""""set Taglist"""""""""
+map <F3> : Tlist<CR>
+"let Tlist_Auto_Open=1
+let Tlist_Ctags_Cmd = '/usr/bin/ctags'
+let Tlist_Use_Right_Window=1
+let Tlist_Show_One_File=0
+let Tlist_File_Fold_Auto_Close=1
+let Tlist_Exit_OnlyWindow=1
+"let Tlist_Use_SingleClick= 1
+"let Tlist_Process_File_Always=0
+
+"""""""""set cscope""""""""""
+"set cscopequickfix=s-,c-,d-,i-,t-,e-
+if has("cscope")
+	set csprg=/usr/bin/cscope
+	set csto=1
+"	set cst
+	set nocsverb
+" add any database in current directory
+	if filereadable("cscope.out")
+		cs add cscope.out
+	endif
+	set csverb
+endif
+
+"nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+"nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+"nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+
+
+"""""""""set 插入作者时间"""""""""
+map <F6> ms:call TitleDet2()<cr>'s
+function AddTitle2()
+        call append(0,"/*******************************************************************************")
+        "call append(1,"#")
+        call append(1," * 	Author        	: 		Yang Pan")
+        "call append(3,"#")
+        call append(2," * 	Email         	: 		pan.yang@renren-inc.com")
+        "call append(5,"#")
+        call append(3," * 	Last modified 	: 		".strftime("%Y-%m-%d %H:%M"))
+        "call append(7,"#")
+        call append(4," * 	Filename      	: 		".expand("%:t"))
+        "call append(9,"#")
+        call append(5," * 	Description   	: 		")
+        "call append(11,"#")
+        call append(6," * *****************************************************************************/")
+        echohl WarningMsg | echo "Successful in adding the copyright." | echohl None
+endf
+
+"更新最近修改时间和文件名
+function UpdateTitle2()
+        normal m'
+        execute '/# *Last modified:/s@:.*$@\=strftime(":\t%Y-%m-%d %H:%M")@'
+        normal "
+        normal mk
+        execute '/# *Filename:/s@:.*$@\=":\t\t".expand("%:t")@'
+        execute "noh"
+        normal 'k
+        echohl WarningMsg | echo "Successful in updating the copy right."| echohl None
+endfunction
+
+"判断前10行代码里面，是否有Last modified这个单词，
+"如果没有的话，代表没有添加过作者信息，需要新添加；
+"如果有的话，那么只需要更新即可
+function TitleDet2()
+        let n=1
+        while n < 10
+                let line = getline(n)
+                if line =~'^\#\s*\S*Last\smodified:\S*.*$'
+                        call UpdateTitle2()
+                        return
+                endif
+                let n = n + 1
+        endwhile
+        call AddTitle2()
+endfunction
