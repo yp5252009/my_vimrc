@@ -144,6 +144,7 @@ set tags=tags;
 nmap <F8> :TagbarToggle<CR>
 
 """""""""set Taglist"""""""""
+"目前用tagbar，看java代码比较方便
 "map <F5> : Tlist<CR>
 "let Tlist_Auto_Open=1
 "let Tlist_Ctags_Cmd = '/usr/bin/ctags'
@@ -157,13 +158,16 @@ nmap <F8> :TagbarToggle<CR>
 """""""""set cscope""""""""""
 "set cscopequickfix=s-,c-,d-,i-,t-,e-
 if has("cscope")
-	set csprg=/usr/bin/cscope
+	set csprg=/usr/local/bin/cscope
 	set csto=1
-"	set cst
+"如果set cst，在ctrl+]跳转时会出现cscope列表
+	set cst
 	set nocsverb
 " add any database in current directory
 	if filereadable("cscope.out")
 		cs add cscope.out
+    elseif $CSCOPE_DB != "" 
+        cs add $CSCOPE_DB
 	endif
 	set csverb
 endif
